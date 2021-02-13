@@ -1,0 +1,37 @@
+{
+  "name": "record-reminder",
+  "version": "1.0.0",
+  "description": "Simple, offline webapp that reminds you to record activity.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimbuck/record-reminder.git"
+  },
+  "keywords": [],
+  "author": "Jim Buck <jim@jimbuck.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jimbuck/record-reminder/issues"
+  },
+  "homepage": "https://github.com/jimbuck/record-reminder#readme",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "next": "^10.0.6",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
+    "react-dom": "^17.0.1",
+    "use-persisted-state": "^0.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.27",
+    "@types/react": "^17.0.2",
+    "@types/use-persisted-state": "^0.3.0",
+    "typescript": "^4.1.5"
+  }
+}
