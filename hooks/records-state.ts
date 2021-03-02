@@ -7,7 +7,6 @@ const _useRecordsState = createPersistedStateHook('records');
 export function useRecordsState(initialValue: Record[]) {
 	const [records, setRecords] = _useRecordsState<Record[]>(initialValue);
 
-
 	function updateRecord(record: Record) {
 		const index = records.findIndex(r => r.id === record.id);
 		setRecords([...records.slice(0, index), record, ...records.slice(index + 1)]);
