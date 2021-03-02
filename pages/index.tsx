@@ -1,26 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
 import { useRecordsState } from '../hooks/records-state';
-import { FormGroup } from '../components/form-group';
 import { guid } from '../services/guid';
 import { Record } from '../models';
-
+import { RecordForm } from '../components/record-form';
 
 export default function IndexPage() {
 
 	const { records, addRecord, updateRecord, removeRecord } = useRecordsState([]);
-	const [activeRecord, setActiveRecord] = useState<Record>({});
+	const [activeRecord, setActiveRecord] = useState<Record>(null);
 
-	useEffect(() => {
-		if (!activeRecord && records.length > 0) {
-			setActiveRecord(records[records.length - 1]);
+	function addAndActivateRecord(record: Record) {
+		addRecord(record);
+		setActiveRecord(record);
+	}
+
+	function deleteUpdateUpdateActive(e: MouseEvent<HTMLElement>, record: Record) {
+		e.stopPropagation();
+		removeRecord(record);
+		if (record.id === activeRecord?.id) {
+			setActiveRecord({})
 		}
-		console.log(`Active: ${activeRecord?.id}`);
-	}, [records.length])
+	}
 
 	return <>
 		<Row>
@@ -30,40 +35,36 @@ export default function IndexPage() {
 		</Row>
 		<Row>
 			<Col>
-				<ListGroup>
+				<ListGroup suppressHydrationWarning>
 					{records.map(record => {
-						const isActive = record.id === activeRecord.id;
-						return <ListGroup.Item variant={isActive ? 'success' : '' } key={record.id} action={!isActive} onClick={(e) => setActiveRecord(record)}>
+						const isActive = record.id === activeRecord?.id;
+						return <ListGroup.Item as={'div'} variant={isActive ? 'success' : '' } key={record.id} action={!isActive} onClick={(e) => setActiveRecord(record)}>
 							<div className="d-flex w-100 justify-content-between">
 								<h5 className="mb-1">{record.name}</h5>
 								<small>
-									<Button variant="outline-danger" onClick={e => { e.stopPropagation(); removeRecord(record); setActiveRecord({}) }}>X</Button>
+									<Button variant="outline-danger" onClick={e => deleteUpdateUpdateActive(e, record)}>X</Button>
 								</small>
 							</div>
 							<p className="mb-1">{record.message}</p>
 							<small>{record.url}</small>
 						</ListGroup.Item>
 					})}
-					<ListGroup.Item action onClick={() => addRecord({ id: guid() })} style={{ textAlign: 'center' }}>+ Add New Record</ListGroup.Item>
+					<ListGroup.Item action onClick={() => addAndActivateRecord({ ...blankRecord(), id: guid() })} style={{ textAlign: 'center' }}>+ Add New Record</ListGroup.Item>
 				</ListGroup>
 			</Col>
 			<Col>
-				<form>
-					<input type="hidden" name="id" value={activeRecord?.id} />
-					<FormGroup label="Name" type="text" disabled={!activeRecord.id} value={activeRecord.name} change={name => setActiveRecord({ ...activeRecord, name })} />
-					<FormGroup label="Message" type="text" disabled={!activeRecord.id} value={activeRecord.message} change={message => setActiveRecord({ ...activeRecord, message })} />
-					<FormGroup label="URL" type="url" disabled={!activeRecord.id} value={activeRecord.url} change={url => setActiveRecord({ ...activeRecord, url })} />
-					<FormGroup label="Interval" type="number" disabled={!activeRecord.id} value={activeRecord.interval} change={interval => setActiveRecord({ ...activeRecord, interval })} />
-					
-					<Row className="form-group">
-						<Col sm="10">
-							<Button type="button" variant="primary" onClick={() => updateRecord(activeRecord)}>Save</Button>
-						</Col>
-					</Row>
-				</form>
+				<RecordForm record={activeRecord} onChange={updateRecord} />
 			</Col>
 		</Row>
 	</>;
 }
 
-
+function blankRecord(): Record {
+	return {
+		id: '',
+		name: '',
+		url: '',
+		message: '',
+		interval: 0
+	}
+}

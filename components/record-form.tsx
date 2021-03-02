@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -8,6 +8,8 @@ import { Record } from '../models';
 
 
 export function RecordForm({ record, onChange }: { record?: Record, onChange: (record: Record) => void }) {
+
+	const nameInputEl = useRef<HTMLInputElement>(null);
 
 	const [name, setName] = useState(record?.name ?? '');
 	const [message, setMessage] = useState(record?.message ?? '');
@@ -19,6 +21,8 @@ export function RecordForm({ record, onChange }: { record?: Record, onChange: (r
 		setMessage(record?.message ?? '');
 		setUrl(record?.url ?? '');
 		setInterval(record?.interval ?? 0);
+
+		nameInputEl?.current?.focus();
 	}, [record]);
 	
 
@@ -28,7 +32,7 @@ export function RecordForm({ record, onChange }: { record?: Record, onChange: (r
 	
 	return <form>
 		<input type="hidden" name="id" value={record?.id} />
-		<FormGroup label="Name" type="text" disabled={!record?.id} value={name} change={name => setName(name)} autoFocus />
+		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!record?.id} value={name} change={name => setName(name)} />
 		<FormGroup label="Message" type="text" disabled={!record?.id} value={message} change={message => setMessage(message)} />
 		<FormGroup label="URL" type="url" disabled={!record?.id} value={url} change={url => setUrl(url)} />
 		<FormGroup label="Interval" type="number" disabled={!record?.id} value={interval} change={interval => setInterval(interval)} />

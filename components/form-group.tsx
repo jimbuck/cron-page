@@ -1,15 +1,19 @@
+import { forwardRef, Ref } from 'react';
 import { guid } from '../services/guid';
 
+type FormGroupProps<TValue> = { label: string, disabled: boolean, placeholder?: string, ref?: Ref<HTMLInputElement>, value: TValue, change: (value: TValue) => void };
+type StringFormGroupProps = { type: 'text' | 'url' } & FormGroupProps<string>;
+type NumberFormGroupProps = { type: 'number' } & FormGroupProps<number>;
 
-export function FormGroup({ label, type, disabled, placeholder, autoFocus, value, change }: { label: string, type: 'text' | 'number' | 'url', disabled: boolean, placeholder?: string, autoFocus?: boolean, value: number, change: (value: number) => void });
-export function FormGroup({ label, type, disabled, placeholder, autoFocus, value, change }: { label: string, type: 'text' | 'number' | 'url', disabled: boolean, placeholder?: string, autoFocus?: boolean, value: string, change: (value: string) => void });
-export function FormGroup({ label, type, disabled, placeholder, autoFocus, value, change }: { label: string, type: 'text' | 'number' | 'url', disabled: boolean, placeholder?: string, autoFocus?: boolean, value: string | number, change: (value: string|number) => void }) {
+function FormGroupRaw({ label, type, disabled, placeholder, value, change }: StringFormGroupProps|NumberFormGroupProps, ref: Ref<HTMLInputElement>) {
 	const inputId = 'input_' + guid();
 
 	return <div className="form-group row">
 		<label htmlFor={inputId} className="col-sm-2 col-form-label">{label}</label>
 		<div className="col-sm-10">
-			<input type={type} className="form-control" id={inputId} placeholder={placeholder} disabled={disabled} value={value} onChange={e => change(e.target.value)} autoFocus={autoFocus} />
+			<input type={type} className="form-control" id={inputId} placeholder={placeholder} disabled={disabled} value={value} onChange={e => (change as (val: unknown) => void)(e.target.value)} ref={ref} />
 		</div>
 	</div>;
 }
+
+export const FormGroup = forwardRef(FormGroupRaw);
