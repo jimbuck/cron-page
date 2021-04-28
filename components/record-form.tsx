@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 
 import { FormGroup } from '../components/form-group';
 import { Record } from '../models';
@@ -24,6 +21,11 @@ export function RecordForm({ record, onChange }: { record?: Record, onChange: (r
 
 		nameInputEl?.current?.focus();
 	}, [record]);
+
+	useEffect(() => {
+		if (!record) return;
+		onChange({ id: record.id, name, message, url, interval });
+	}, [name, message, url, interval]);
 	
 
 	if (!record?.id) {
@@ -36,11 +38,5 @@ export function RecordForm({ record, onChange }: { record?: Record, onChange: (r
 		<FormGroup label="Message" type="text" disabled={!record?.id} value={message} change={message => setMessage(message)} />
 		<FormGroup label="URL" type="url" disabled={!record?.id} value={url} change={url => setUrl(url)} />
 		<FormGroup label="Interval" type="number" disabled={!record?.id} value={interval} change={interval => setInterval(interval)} />
-					
-		<Row className="form-group">
-			<Col sm="10">
-				<Button type="button" variant="primary" onClick={() => onChange({id: record.id, name, message, url, interval})}>Save</Button>
-			</Col>
-		</Row>
 	</form>;
 }

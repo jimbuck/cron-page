@@ -1,6 +1,7 @@
 import createPersistedStateHook from 'use-persisted-state';
 
-import { Record } from '../models'
+import { Record } from '../models';
+import { updatePeriodicSync } from '../services/sync';
 
 const _useRecordsState = createPersistedStateHook('records');
 
@@ -9,6 +10,7 @@ export function useRecordsState(initialValue: Record[]) {
 
 	function updateRecord(record: Record) {
 		const index = records.findIndex(r => r.id === record.id);
+		updatePeriodicSync(record);
 		setRecords([...records.slice(0, index), record, ...records.slice(index + 1)]);
 	}
 
@@ -22,3 +24,4 @@ export function useRecordsState(initialValue: Record[]) {
 
 	return { records, addRecord, updateRecord, removeRecord };
 }
+

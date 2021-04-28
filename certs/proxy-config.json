@@ -1,0 +1,8 @@
+{
+	"dev": {
+		"source": "3001",
+		"target": "3000",
+		"key": "./certs/cert.key",
+		"cert": "./certs/cert.crt"
+	}
+}
