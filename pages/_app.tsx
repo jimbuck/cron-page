@@ -4,11 +4,8 @@ import type { AppProps /*, AppContext */ } from 'next/app'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useServiceWorker } from '../hooks/service-worker';
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  useServiceWorker('/sw.js');
 
   return <div className="container">
     <Row>
