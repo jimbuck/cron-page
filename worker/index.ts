@@ -20,7 +20,7 @@ self.addEventListener('install', async event => {
 //#region Periodic Sync
 
 self.addEventListener('periodicsync', (event) => {
-	console.log(`PERIODIC SYNC`);
+	console.log(`PERIODIC SYNC`, event);
 	if (event.tag.startsWith('reminder-')) {
     const record = getRecord(event.tag.replace('reminder-', ''));
     console.log(record);

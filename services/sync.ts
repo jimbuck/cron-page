@@ -15,6 +15,8 @@ export async function updatePeriodicSync(record: Record) {
 		} catch (error) {
 			console.error(error);
 		}
+	} else {
+		console.error(`'periodicSync' NOT in registration`, record);
 	}
 
 
