@@ -1,5 +1,6 @@
 
 //declare let self: ServiceWorkerGlobalScope
+import { loadReminders } from '../services/storage';
 
 //#region Install
 
@@ -19,12 +20,21 @@ self.addEventListener('install', async event => {
 
 //#region Periodic Sync
 
-self.addEventListener('periodicsync', (event) => {
-  console.log(`PERIODIC SYNC`, event);
-  self.postMessage({ ...event });
+self.addEventListener('periodicsync', async (event) => {
+  console.log(`PERIODIC SYNC (${event.tag})`, event);
+  if (event.tag.startsWith('reminder-')) {
+    const reminder = await getReminder(event.tag.replace('reminder-', ''));
+    console.log(reminder);
+  }
+  // Other logic for different tags as needed.
 });
 
 
+async function getReminder(id: string) {
+  const reminders = await loadReminders();
+
+  return reminders.find(r => r.id === id);
+}
 
 //#endregion
 

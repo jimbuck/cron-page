@@ -1,27 +1,30 @@
+import { useEffect, useState } from 'react';
 import createPersistedStateHook from 'use-persisted-state';
 
-import { Record } from '../models';
+import { Reminder } from '../models';
+import { useReminderStorage } from '../services/storage';
 import { updatePeriodicSync } from '../services/sync';
 
-const _useRecordsState = createPersistedStateHook('records');
 
-export function useRecordsState(initialValue: Record[]) {
-	const [records, setRecords] = _useRecordsState<Record[]>(initialValue);
+export function useRemindersState(initialValue: Reminder[]) {
+	const [reminders, setReminders, { loading, error }] = useReminderStorage(initialValue);
 
-	function updateRecord(record: Record) {
-		const index = records.findIndex(r => r.id === record.id);
-		updatePeriodicSync(record);
-		setRecords([...records.slice(0, index), record, ...records.slice(index + 1)]);
+	function updateReminder(reminder: Reminder) {
+		const index = reminders.findIndex(r => r.id === reminder.id);
+		if (index < 0) return;
+		updatePeriodicSync(reminder);
+		setReminders([...reminders.slice(0, index), reminder, ...reminders.slice(index + 1)]);
 	}
 
-	function addRecord(record: Record) {
-		setRecords([...records, record]);
+	function addReminder(reminder: Reminder) {
+		console.log(reminders);
+		setReminders([...reminders, reminder]);
 	}
 
-	function removeRecord(record: Record) {
-		setRecords(records.filter(r => r.id !== record.id))
+	function removeReminder(reminder: Reminder) {
+		setReminders(reminders.filter(r => r.id !== reminder.id))
 	}
 
-	return { records, addRecord, updateRecord, removeRecord };
+	return { reminders, loading, error, addReminder, updateReminder, removeReminder };
 }
 

@@ -2,37 +2,37 @@ import { useEffect, useState, MouseEvent } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
-import { Record } from '../models';
+import { Reminder } from '../models';
 import { guid } from '../services/guid';
 
-export type RecordEvent = (record: Record) => void;
+export type ReminderEvent = (reminder: Reminder) => void;
 
-export function RecordList({ records, activeRecord, selectRecord, deleteRecord, newRecord }: {records: Record[], activeRecord: Record, selectRecord: RecordEvent, deleteRecord: RecordEvent, newRecord: RecordEvent }) {
+export function RecordList({ reminders, activeReminder, selectReminder, deleteReminder, newReminder }: {reminders: Reminder[], activeReminder: Reminder, selectReminder: ReminderEvent, deleteReminder: ReminderEvent, newReminder: ReminderEvent }) {
 	
 	return <ListGroup suppressHydrationWarning>
-		{records.map(record => {
-			const isActive = record.id === activeRecord?.id;
-			return <ListGroup.Item as={'div'} variant={isActive ? 'success' : ''} key={record.id} action={!isActive} onClick={() => selectRecord(record)}>
+		{reminders.map(reminder => {
+			const isActive = reminder.id === activeReminder?.id;
+			return <ListGroup.Item as={'div'} variant={isActive ? 'success' : ''} key={reminder.id} action={!isActive} onClick={() => selectReminder(reminder)}>
 				<div className="d-flex w-100 justify-content-between">
-					<h5 className="mb-1">{record.name}</h5>
+					<h5 className="mb-1">{reminder.name}</h5>
 					<small>
-						<Button variant="outline-danger" type="button" onClick={e => deleteButDontSelect(e, record)}>X</Button>
+						<Button variant="outline-danger" type="button" onClick={e => deleteButDontSelect(e, reminder)}>X</Button>
 					</small>
 				</div>
-				<p className="mb-1">{record.message}</p>
-				<small>{record.url}</small>
+				<p className="mb-1">{reminder.message}</p>
+				<small>{reminder.url}</small>
 			</ListGroup.Item>
 		})}
-		<ListGroup.Item action onClick={() => newRecord({ ...blankRecord(), id: guid() })} style={{ textAlign: 'center' }}>+ Add New Record</ListGroup.Item>
+		<ListGroup.Item action onClick={() => newReminder({ ...blankReminder(), id: guid() })} style={{ textAlign: 'center' }}>+ Add New Record</ListGroup.Item>
 	</ListGroup>;
 
-	function deleteButDontSelect(e: MouseEvent, record: Record) {
+	function deleteButDontSelect(e: MouseEvent, reminder: Reminder) {
 		e.stopPropagation();
-		deleteRecord(record);
+		deleteReminder(reminder);
 	}
 }
 
-function blankRecord(): Record {
+function blankReminder(): Reminder {
 	return {
 		id: '',
 		name: '',

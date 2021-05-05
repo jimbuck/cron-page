@@ -4,27 +4,57 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
-import { useRecordsState } from '../hooks/records-state';
+import { useRemindersState } from '../hooks/records-state';
 
-import { Record } from '../models';
-import { RecordForm } from '../components/record-form';
+import { Reminder } from '../models';
+import { ReminderForm } from '../components/record-form';
 import { RecordList } from '../components/record-list';
 
 export default function IndexPage() {
 
-	const { records, addRecord, updateRecord, removeRecord } = useRecordsState([]);
-	const [activeRecord, setActiveRecord] = useState<Record>(null);
+	const { reminders, loading, error, addReminder, updateReminder, removeReminder } = useRemindersState([]);
+	const [activeReminder, setActiveReminder] = useState<Reminder>(null);
 
-	function addAndActivateRecord(record: Record) {
-		addRecord(record);
-		setActiveRecord(record);
+	function addAndActivateReminder(record: Reminder) {
+		addReminder(record);
+		setActiveReminder(record);
 	}
 
-	function deleteUpdateActive(record: Record) {
-		removeRecord(record);
-		if (record.id === activeRecord?.id) {
-			setActiveRecord({})
+	function deleteUpdateActive(record: Reminder) {
+		removeReminder(record);
+		if (record.id === activeReminder?.id) {
+			setActiveReminder({})
 		}
+	}
+
+	if (error) {
+		return <>
+			<Row>
+				<Col>
+					<h2>Welcome!</h2>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<pre>{error.toString()}</pre>
+				</Col>
+			</Row>
+		</>;
+	}
+
+	if (loading) {
+		return <>
+			<Row>
+				<Col>
+					<h2>Welcome!</h2>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<p>Loading...</p>
+				</Col>
+			</Row>
+		</>;
 	}
 
 	return <>
@@ -35,10 +65,10 @@ export default function IndexPage() {
 		</Row>
 		<Row>
 			<Col>
-				<RecordList {...{records, activeRecord, selectRecord: setActiveRecord, newRecord: addAndActivateRecord, deleteRecord: deleteUpdateActive}} />
+				<RecordList {...{reminders: reminders, activeReminder: activeReminder, selectReminder: setActiveReminder, newReminder: addAndActivateReminder, deleteReminder: deleteUpdateActive}} />
 			</Col>
 			<Col>
-				<RecordForm record={activeRecord} onChange={updateRecord} />
+				<ReminderForm reminder={activeReminder} onChange={updateReminder} />
 			</Col>
 		</Row>
 	</>;

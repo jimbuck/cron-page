@@ -1,42 +1,42 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { FormGroup } from '../components/form-group';
-import { Record } from '../models';
+import { Reminder } from '../models';
 
 
-export function RecordForm({ record, onChange }: { record?: Record, onChange: (record: Record) => void }) {
+export function ReminderForm({ reminder, onChange }: { reminder?: Reminder, onChange: (record: Reminder) => void }) {
 
 	const nameInputEl = useRef<HTMLInputElement>(null);
 
-	const [name, setName] = useState(record?.name ?? '');
-	const [message, setMessage] = useState(record?.message ?? '');
-	const [url, setUrl] = useState(record?.url ?? '');
-	const [interval, setInterval] = useState(record?.interval ?? 0);
+	const [name, setName] = useState(reminder?.name ?? '');
+	const [message, setMessage] = useState(reminder?.message ?? '');
+	const [url, setUrl] = useState(reminder?.url ?? '');
+	const [interval, setInterval] = useState(reminder?.interval ?? 0);
 
 	useEffect(() => {
-		setName(record?.name ?? '');
-		setMessage(record?.message ?? '');
-		setUrl(record?.url ?? '');
-		setInterval(record?.interval ?? 0);
+		setName(reminder?.name ?? '');
+		setMessage(reminder?.message ?? '');
+		setUrl(reminder?.url ?? '');
+		setInterval(reminder?.interval ?? 0);
 
 		nameInputEl?.current?.focus();
-	}, [record]);
+	}, [reminder]);
 
 	useEffect(() => {
-		if (!record) return;
-		onChange({ id: record.id, name, message, url, interval });
+		if (!reminder) return;
+		onChange({ id: reminder.id, name, message, url, interval });
 	}, [name, message, url, interval]);
 	
 
-	if (!record?.id) {
-		return <p>Select a record on the left!</p>;
+	if (!reminder?.id) {
+		return <p>Select a reminder on the left!</p>;
 	}
 	
 	return <form>
-		<input type="hidden" name="id" value={record?.id} />
-		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!record?.id} value={name} change={name => setName(name)} />
-		<FormGroup label="Message" type="text" disabled={!record?.id} value={message} change={message => setMessage(message)} />
-		<FormGroup label="URL" type="url" disabled={!record?.id} value={url} change={url => setUrl(url)} />
-		<FormGroup label="Interval" type="number" disabled={!record?.id} value={interval} change={interval => setInterval(interval)} />
+		<input type="hidden" name="id" value={reminder?.id} />
+		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!reminder?.id} value={name} change={name => setName(name)} />
+		<FormGroup label="Message" type="text" disabled={!reminder?.id} value={message} change={message => setMessage(message)} />
+		<FormGroup label="URL" type="url" disabled={!reminder?.id} value={url} change={url => setUrl(url)} />
+		<FormGroup label="Interval" type="number" disabled={!reminder?.id} value={interval} change={interval => setInterval(interval)} />
 	</form>;
 }

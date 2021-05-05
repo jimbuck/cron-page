@@ -1,4 +1,4 @@
-export interface Record {
+export interface Reminder {
 	id?: string;
 	name?: string;
 	message?: string;
@@ -8,6 +8,6 @@ export interface Record {
 
 export const SYNC_TAG_PREFIX = 'reminder-';
 
-export function getRecordSyncTag(record: Record) {
+export function getRecordSyncTag(record: Reminder) {
 	return SYNC_TAG_PREFIX + record.id;
 }
