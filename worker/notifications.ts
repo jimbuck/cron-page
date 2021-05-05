@@ -1,3 +1,5 @@
+declare const self: ServiceWorkerGlobalScope;
+
 import { Reminder } from '../models';
 
 export async function showReminder(registration: ServiceWorkerRegistration, reminder: Reminder) {
@@ -6,7 +8,7 @@ export async function showReminder(registration: ServiceWorkerRegistration, remi
 		const result = confirm(`${reminder.name}:
 
 ${reminder.message}`);
-		if (result) window.open(reminder.url, '_blank');
+		if (result) self.clients.openWindow(reminder.url).then(windowClient => windowClient?.focus())
 		return;
 	}
 

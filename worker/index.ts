@@ -1,5 +1,5 @@
+declare const self: ServiceWorkerGlobalScope;
 
-//declare let self: ServiceWorkerGlobalScope
 import { Reminder } from '../models';
 import { showReminder } from './notifications';
 import { loadReminders } from '../services/storage';
@@ -58,7 +58,7 @@ self.addEventListener('notificationclick', function (event) {
 	const reminder: Reminder = event.notification.data;
 
 	event.waitUntil(
-		clients.openWindow(reminder.url).then(windowClient => windowClient?.focus())
+		self.clients.openWindow(reminder.url).then(windowClient => windowClient?.focus())
 	);
 });
 
