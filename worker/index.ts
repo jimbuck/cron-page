@@ -58,15 +58,8 @@ self.addEventListener('notificationclick', function (event) {
 	const reminder: Reminder = event.notification.data;
 
 	event.waitUntil(
-		openReminderSite()
+		clients.openWindow(reminder.url).then(windowClient => windowClient?.focus())
 	);
-
-	async function openReminderSite() {
-		const allClients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
-		const client = allClients.find(client => client.url.includes(reminder.url));
-		if (client) client.focus();
-		else clients.openWindow(reminder.url);
-	}
 });
 
 //#endregion
