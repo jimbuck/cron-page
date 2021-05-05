@@ -32,7 +32,7 @@ export function ReminderForm({ reminder, onChange }: { reminder?: Reminder, onCh
 		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!reminder?.id} value={name} change={name => { setName(name); onChange({ ...reminder, name }) }} />
 		<FormGroup label="Message" type="text" disabled={!reminder?.id} value={message} change={message => { setMessage(message); onChange({ ...reminder, message }) }} />
 		<FormGroup label="URL" type="url" disabled={!reminder?.id} value={url} change={url => { setUrl(url); onChange({ ...reminder, url }) }} />
-		<FormGroup label="Interval" type="number" disabled={!reminder?.id} value={interval} change={interval => { setInterval(interval); onChange({ ...reminder, interval }) }} />
+		<FormGroup label="Interval (minutes)" type="number" disabled={!reminder?.id} value={interval} change={interval => { setInterval(interval); onChange({ ...reminder, interval }) }} />
 		<Button variant="outline-info" type="button" onClick={e => testNotification(e, reminder)}>Test</Button>
 	</form>;
 

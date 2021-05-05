@@ -28,7 +28,7 @@ export async function updatePeriodicSync(reminder: Reminder) {
 	
 	async function registerSync(tag: string) {
 		await registration.periodicSync.register(tag, {
-			minInterval: reminder.interval,
+			minInterval: 1000 * 60 * reminder.interval, // Convert from minutes to milliseconds
 		});
 	}
 }
