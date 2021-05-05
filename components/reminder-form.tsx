@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { FormGroup } from '../components/form-group';
+import { FormGroup } from './form-group';
 import { Reminder } from '../models';
 
 

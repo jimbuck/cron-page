@@ -8,6 +8,6 @@ export interface Reminder {
 
 export const SYNC_TAG_PREFIX = 'reminder-';
 
-export function getRecordSyncTag(record: Reminder) {
-	return SYNC_TAG_PREFIX + record.id;
+export function getReminderSyncTag(reminder: Reminder) {
+	return SYNC_TAG_PREFIX + reminder.id;
 }

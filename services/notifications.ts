@@ -4,9 +4,7 @@ import { Reminder } from '../models';
 
 export async function showReminder(reminder: Reminder) {
 
-	const status = await Notification.requestPermission();
-
-	if (status !== 'granted') {
+	if (Notification.permission !== 'granted') {
 		const result = confirm(`${reminder.name}:
 
 ${reminder.message}`);

@@ -1,22 +1,23 @@
-import { Reminder, getRecordSyncTag  } from '../models'
+import { Reminder, getReminderSyncTag  } from '../models'
 
-export async function updatePeriodicSync(record: Reminder) {
-	if (!record || !(record.id && record.interval && record.message)) return;
+export async function updatePeriodicSync(reminder: Reminder) {
+	if (!reminder || !(reminder.id && reminder.interval && reminder.message)) return;
 
 	const registration: any = await navigator.serviceWorker.ready;
 	if ('periodicSync' in registration) {
 		try {
-			const recordTag = getRecordSyncTag(record);
+			const reminderTag = getReminderSyncTag(reminder);
 			const tags: string[] = await registration.periodicSync.getTags();
 
-			if (tags.includes(recordTag)) await unregisterSync(recordTag);
+			if (tags.includes(reminderTag)) await unregisterSync(reminderTag);
 			
-			await registerSync(recordTag);
+			await registerSync(reminderTag);
+			console.log(`PeriodicSync updated for ${reminder.name}!`);
 		} catch (error) {
 			console.error(error);
 		}
 	} else {
-		console.error(`'periodicSync' NOT in registration`, record);
+		console.error(`'periodicSync' NOT in registration`, reminder);
 	}
 
 
@@ -27,7 +28,7 @@ export async function updatePeriodicSync(record: Reminder) {
 	
 	async function registerSync(tag: string) {
 		await registration.periodicSync.register(tag, {
-			minInterval: record.interval,
+			minInterval: reminder.interval,
 		});
 	}
 }

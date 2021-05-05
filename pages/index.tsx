@@ -1,16 +1,16 @@
-import { useEffect, useState, MouseEvent } from 'react';
+import { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
-
-import { useRemindersState } from '../hooks/records-state';
 
 import { Reminder } from '../models';
-import { ReminderForm } from '../components/record-form';
-import { RecordList } from '../components/record-list';
+import { RecordList } from '../components/reminder-list';
+import { ReminderForm } from '../components/reminder-form';
+import { useRemindersState } from '../hooks/reminders-state';
+import { useNotifications } from '../hooks/use-notifications';
 
 export default function IndexPage() {
+
+	useNotifications();
 
 	const { reminders, loading, error, addReminder, updateReminder, removeReminder } = useRemindersState([]);
 	const [activeReminder, setActiveReminder] = useState<Reminder>(null);
@@ -27,49 +27,20 @@ export default function IndexPage() {
 		}
 	}
 
-	if (error) {
-		return <>
-			<Row>
+	const content = error ? <Col><pre>{error.toString()}</pre></Col>
+		: loading ? <Col><p>Loading...</p></Col>
+			: <>
 				<Col>
-					<h2>Welcome!</h2>
+					<RecordList {...{reminders: reminders, activeReminder: activeReminder, selectReminder: setActiveReminder, newReminder: addAndActivateReminder, deleteReminder: deleteUpdateActive}} />
 				</Col>
-			</Row>
-			<Row>
 				<Col>
-					<pre>{error.toString()}</pre>
+					<ReminderForm reminder={activeReminder} onChange={updateReminder} />
 				</Col>
-			</Row>
-		</>;
-	}
-
-	if (loading) {
-		return <>
-			<Row>
-				<Col>
-					<h2>Welcome!</h2>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
-					<p>Loading...</p>
-				</Col>
-			</Row>
-		</>;
-	}
+			</>;
 
 	return <>
 		<Row>
-			<Col>
-				<h2>Welcome!</h2>
-			</Col>
-		</Row>
-		<Row>
-			<Col>
-				<RecordList {...{reminders: reminders, activeReminder: activeReminder, selectReminder: setActiveReminder, newReminder: addAndActivateReminder, deleteReminder: deleteUpdateActive}} />
-			</Col>
-			<Col>
-				<ReminderForm reminder={activeReminder} onChange={updateReminder} />
-			</Col>
+			{content}
 		</Row>
 	</>;
 }
