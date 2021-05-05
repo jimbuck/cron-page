@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, MouseEvent } from 'react';
+import Button from 'react-bootstrap/Button';
 
 import { FormGroup } from './form-group';
 import { Reminder } from '../models';
@@ -28,9 +29,16 @@ export function ReminderForm({ reminder, onChange }: { reminder?: Reminder, onCh
 	
 	return <form>
 		<input type="hidden" name="id" value={reminder?.id} />
-		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!reminder?.id} value={name} change={name => { setName(name); onChange({...reminder, name}) }} />
-		<FormGroup label="Message" type="text" disabled={!reminder?.id} value={message} change={message => { setMessage(message); onChange({...reminder, message}) }} />
-		<FormGroup label="URL" type="url" disabled={!reminder?.id} value={url} change={url => { setUrl(url); onChange({...reminder, url}) }} />
-		<FormGroup label="Interval" type="number" disabled={!reminder?.id} value={interval} change={interval => { setInterval(interval); onChange({...reminder, interval}) }} />
+		<FormGroup ref={nameInputEl} label="Name" type="text" disabled={!reminder?.id} value={name} change={name => { setName(name); onChange({ ...reminder, name }) }} />
+		<FormGroup label="Message" type="text" disabled={!reminder?.id} value={message} change={message => { setMessage(message); onChange({ ...reminder, message }) }} />
+		<FormGroup label="URL" type="url" disabled={!reminder?.id} value={url} change={url => { setUrl(url); onChange({ ...reminder, url }) }} />
+		<FormGroup label="Interval" type="number" disabled={!reminder?.id} value={interval} change={interval => { setInterval(interval); onChange({ ...reminder, interval }) }} />
+		<Button variant="outline-info" type="button" onClick={e => testNotification(e, reminder)}>Test</Button>
 	</form>;
+
+	async function testNotification(e: MouseEvent, reminder: Reminder) {
+		e.stopPropagation();
+		const registration = await navigator.serviceWorker.ready;
+		registration.active.postMessage({ message: 'test-notification', reminder });
+	}
 }
