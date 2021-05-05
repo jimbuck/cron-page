@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import createPersistedStateHook from 'use-persisted-state';
-
 import { Reminder } from '../models';
 import { useReminderStorage } from '../services/storage';
 import { updatePeriodicSync } from '../services/sync';
@@ -17,7 +14,6 @@ export function useRemindersState(initialValue: Reminder[]) {
 	}
 
 	function addReminder(reminder: Reminder) {
-		console.log(reminders);
 		setReminders([...reminders, reminder]);
 	}
 
