@@ -39,6 +39,6 @@ export function ReminderForm({ reminder, onChange }: { reminder?: Reminder, onCh
 	async function testNotification(e: MouseEvent, reminder: Reminder) {
 		e.stopPropagation();
 		const registration = await navigator.serviceWorker.ready;
-		registration.active.postMessage({ message: 'test-notification', reminder });
+		registration.active.postMessage({ message: 'show-notification', reminder });
 	}
 }

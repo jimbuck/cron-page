@@ -45,9 +45,9 @@ async function getReminder(id: string) {
 //#region Notifications
 
 self.addEventListener('message', async (event) => {
-  const { message, reminder }: { message: 'test-notification', reminder: Reminder } = event.data;
+  const { message, reminder }: { message: 'show-notification', reminder: Reminder } = event.data;
   
-  if (message === 'test-notification') {
+  if (message === 'show-notification') {
     await showReminder((self as any).registration, reminder)
   }
 });
