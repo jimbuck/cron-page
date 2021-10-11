@@ -2,12 +2,12 @@
   "name": "record-reminder",
   "version": "1.0.0",
   "description": "Simple, offline webapp that reminds you to record activity.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": "./dist/bin.js",
   "scripts": {
-    "dev": "next dev",
-    "https": "local-ssl-proxy --config ./certs/proxy-config.json",
-    "build": "next build && next export",
-    "start": "next start",
+    "start": "node ./dist/bin.js",
+    "dev": "tsc -w",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,21 +22,22 @@
   },
   "homepage": "https://github.com/jimbuck/record-reminder#readme",
   "dependencies": {
-    "bootstrap": "^4.6.0",
-    "idb-keyval": "^5.0.5",
-    "next": "^10.0.6",
-    "next-pwa": "^5.2.15",
-    "react": "^17.0.1",
-    "react-bootstrap": "^1.4.3",
-    "react-dom": "^17.0.1",
-    "use-persisted-state": "^0.3.3"
+    "conf": "^10.0.3",
+    "cronstrue": "^1.117.0",
+    "node-cron": "^3.0.0",
+    "open": "^8.2.1",
+    "prompts": "^2.4.1",
+    "sudo-block": "^4.0.0",
+    "systray": "^1.0.5",
+    "user-startup": "^0.2.2",
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "@types/node": "^14.14.27",
-    "@types/react": "^17.0.2",
-    "@types/use-persisted-state": "^0.3.0",
-    "local-ssl-proxy": "^1.3.0",
-    "typescript": "^4.1.5",
-    "webpack": "^5.36.0"
+    "@types/node": "^16.10.3",
+    "@types/node-cron": "^3.0.0",
+    "@types/prompts": "^2.0.14",
+    "@types/yargs": "^17.0.3",
+    "pkg": "^5.3.3",
+    "typescript": "^4.4.3"
   }
 }
