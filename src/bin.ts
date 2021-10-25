@@ -47,27 +47,47 @@ async function setup() {
 	const sudoBlock = (await import('sudo-block')).default;
 	sudoBlock();
 
-	const { url, ...config }: { url: string, schedule: string } = await prompts([
+	const { url }: { url: string } = await prompts([
 		{
 			type: 'text',
 			name: 'url',
 			message: 'Which URL do you want to open?',
 			initial: 'https://',
-		},
-		{
-			type: 'text',
-			name: 'schedule',
-			message: 'How often should it open (cron)?',
-			initial: MONDAY_TO_FRIDAY_9TO5,
-			validate: (value: string) => cron.validate(value) || 'Invalid cron schedule!',
-		},
-	]);
+		}]);
+	
+	let schedule: string = MONDAY_TO_FRIDAY_9TO5;
+	let confirmed: boolean = false;
+	
+	do {
+		const answers = await prompts([
+			{
+				type: 'text',
+				name: 'schedule',
+				message: 'How often should it open (cron)?',
+				initial: schedule || MONDAY_TO_FRIDAY_9TO5,
+				validate: (value: string) => cron.validate(value) || 'Invalid cron schedule!',
+			},
+			{
+				type: 'confirm',
+				name: 'confirmed',
+				message(schedule) {
+					const cron = cronToHumanString(schedule);
+	
+					return `You've entered '${cron}', is this correct?`;
+				}
+			}
+		]);
+
+		schedule = answers.schedule;
+		confirmed = answers.confirmed;
+
+	} while (confirmed === false); // Check for "equals to false" since trying to exit the prompt will be "undefined".
 
 	try {
 		startup.remove(COMMAND);
 	} catch { }
 
-	startup.create(COMMAND, COMMAND, ['run', url, ...toArgs(config)]);
+	startup.create(COMMAND, COMMAND, ['run', url, ...toArgs({ schedule })]);
 }
 
 async function remove() {
