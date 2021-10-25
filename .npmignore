@@ -1,3 +1,6 @@
 .readme
 .vscode
 icon.ico
+dist/*.map
+src
+tsconfig.json
