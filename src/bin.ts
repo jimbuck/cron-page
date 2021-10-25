@@ -3,7 +3,7 @@
 import prompts from 'prompts';
 import cron from 'node-cron';
 
-import yargs from 'yargs';
+import yargs, { command } from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import startup from 'user-startup';
 import { cronToHumanString } from './utils.js';
@@ -67,7 +67,7 @@ async function setup() {
 		startup.remove(COMMAND);
 	} catch { }
 
-	startup.create(COMMAND, 'npx', [COMMAND, 'run', url, ...toArgs(config)]);
+	startup.create(COMMAND, COMMAND, ['run', url, ...toArgs(config)]);
 }
 
 async function remove() {
