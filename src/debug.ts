@@ -1,5 +1,5 @@
 
 
-import { RecordReminder } from './index.js';
+import { CronPage } from './index.js';
 
-const reminder = new RecordReminder({ url: 'https://google.com' });
+const reminder = new CronPage({ url: 'https://google.com' });

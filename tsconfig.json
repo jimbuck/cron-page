@@ -2,9 +2,8 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.cache/.tsbuildinfo",
-    "target": "ES2015",
-    //"lib": [""],
-    "module": "CommonJS",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "rootDir": "./src",
     "outDir": "./dist",

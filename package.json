@@ -1,11 +1,17 @@
 {
   "name": "record-reminder",
   "version": "1.0.0",
-  "description": "Simple, offline webapp that reminds you to record activity.",
-  "main": "dist/index.js",
-  "bin": "./dist/bin.js",
+  "description": "Simple library & CLI tool that opens a webpage on a cron schedule..",
+  "type": "module",
+  "exports": {
+    ".": {
+        "import": "./dist/index.js"
+    }
+},
+  "main": "./dist/index.js",
+  "bin": "./dist/bin.cjs",
   "scripts": {
-    "start": "node ./dist/bin.js",
+    "start": "node .",
     "dev": "tsc -w",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,10 +22,11 @@
   },
   "keywords": [],
   "author": "Jim Buck <jim@jimbuck.io>",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/jimbuck/record-reminder/issues"
   },
+  "node": " >=14.13.1 || >=16.0.0",
   "homepage": "https://github.com/jimbuck/record-reminder#readme",
   "dependencies": {
     "conf": "^10.0.3",
@@ -38,6 +45,6 @@
     "@types/prompts": "^2.0.14",
     "@types/yargs": "^17.0.3",
     "pkg": "^5.3.3",
-    "typescript": "^4.4.3"
+    "typescript": "^4.5.0-beta"
   }
 }

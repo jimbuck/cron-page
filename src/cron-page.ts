@@ -14,13 +14,13 @@ export interface Config {
 	icon?: string;
 }
 
-export const MONDAY_TO_FRIDAY_9TO5 = '0 9-17 * * 1-5';
+export const MONDAY_TO_FRIDAY_9TO5 = '55 9-17 * * 1-5';
 
 const TOGGLE_TITLE = 'Active';
 let OPEN_TITLE = 'Open Page';
 const EXIT_TITLE = 'Exit';
 
-export class RecordReminder {
+export class CronPage {
 
 	private tray: SysTray;
 	private cron: cron.ScheduledTask;

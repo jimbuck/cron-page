@@ -1,1 +1,1 @@
-export * from './reminder';
+export * from './cron-page.js';
