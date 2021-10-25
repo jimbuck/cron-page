@@ -8,19 +8,13 @@ Simple CLI tool & library that opens a webpage on a cron schedule.
 
 ## Installation
 
+Run the following command to quickly get started:
+
 ```sh
-npm i -g cron-page
+npx cron-page setup
 ```
 
 ## CLI
-
-### `run`
-
-```sh
-cron-page run <url> [--schedule=<cron schedule>]
-```
-
-The default cron schedule is every hour from 9:55AM-4:55PM on Monday through Friday (`55 9-17 * * 1-5`).
 
 ### `setup` (`install`)
 
@@ -29,6 +23,14 @@ cron-page setup
 ```
 
 This will register the app to run when the current user logs in. It can also validate the cron schedule and shows the schedule explained so you can rest assured it's correct.
+
+### `run`
+
+```sh
+cron-page run <url> [--schedule=<cron schedule>]
+```
+
+The default cron schedule is every hour from 9:55AM-4:55PM on Monday through Friday (`55 9-17 * * 1-5`).
 
 ### `remove` (`uninstall`)
 

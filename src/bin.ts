@@ -47,7 +47,7 @@ async function setup() {
 	const sudoBlock = (await import('sudo-block')).default;
 	sudoBlock();
 
-	const config = await prompts([
+	const { url, ...config }: { url: string, schedule: string } = await prompts([
 		{
 			type: 'text',
 			name: 'url',
@@ -64,14 +64,15 @@ async function setup() {
 	]);
 
 	try {
-		startup.remove(CronPage.constructor.name);
+		startup.remove(COMMAND);
 	} catch { }
-	startup.create(CronPage.constructor.name, 'npx', [COMMAND, 'run', ...toArgs(config)]);
+
+	startup.create(COMMAND, 'npx', [COMMAND, 'run', url, ...toArgs(config)]);
 }
 
 async function remove() {
 	try {
-		startup.remove(CronPage.constructor.name);
+		startup.remove(COMMAND);
 	} catch { }
 	console.log(`CronPage successfully removed!`);
 }
@@ -88,6 +89,6 @@ async function run({ url, schedule }: { url: string, schedule: string }) {
  * @param {(Record<string, string | number | boolean>)} params
  * @return {string[]} {string[]}
  */
-function toArgs(params: Record<string, string | number | boolean>): string[] {
+function toArgs(params: Record<string, any>): string[] {
 	return Object.entries(params).reduce((args, [key, value]) => [...args, ...(typeof value === 'boolean' ? (value ? [`--${key}`] : []) : [`--${key}`, `${value}`])], [] as string[]);
 }
