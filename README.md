@@ -8,11 +8,14 @@ Simple CLI tool & library that opens a webpage on a cron schedule.
 
 ## Installation
 
-Run the following command to quickly get started:
+Run the following to quickly get started:
 
 ```sh
-npx cron-page setup
+npm i -g install cron-page
+cron-page setup
 ```
+
+_(I haven't been able to get it to work via `npx`, but let me know if you have any tips!)_
 
 ## CLI
 
