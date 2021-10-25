@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
 import prompts from 'prompts';
 import cron from 'node-cron';
