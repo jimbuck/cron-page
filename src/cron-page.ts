@@ -20,6 +20,7 @@ const TOGGLE_TITLE = 'Active';
 let OPEN_TITLE = 'Open Page';
 const EXIT_TITLE = 'Exit';
 
+
 export class CronPage {
 
 	private tray: SysTray;
@@ -31,7 +32,8 @@ export class CronPage {
 		this.config.schedule ??= MONDAY_TO_FRIDAY_9TO5;
 		this.config.description ??= `Opens ${this.config.url} ${cronToHumanString(this.config.schedule)}`;
 
-		this.tray = new SysTray({
+		// Weird constructor since import doesn't appear to be working correctly.
+		this.tray = new (SysTray as any).default({
 			menu: {
 				// you should using .png icon in macOS/Linux, but .ico format in windows
 				icon: this.config.icon,

@@ -43,8 +43,6 @@ yargs(hideBin(process.argv))
 	.demandCommand(1)
 	.argv;
 
-
-
 async function setup() {
 	const sudoBlock = (await import('sudo-block')).default;
 	sudoBlock();
@@ -68,7 +66,7 @@ async function setup() {
 	try {
 		startup.remove(CronPage.constructor.name);
 	} catch { }
-	startup.create(CronPage.constructor.name, COMMAND, ['run', ...toArgs(config)]);
+	startup.create(CronPage.constructor.name, 'npx', [COMMAND, 'run', ...toArgs(config)]);
 }
 
 async function remove() {

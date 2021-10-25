@@ -1,15 +1,11 @@
 {
-  "name": "record-reminder",
-  "version": "1.0.0",
-  "description": "Simple library & CLI tool that opens a webpage on a cron schedule..",
+  "name": "cron-page",
+  "version": "0.1.0",
+  "description": "Simple library & CLI tool that opens a webpage on a cron schedule.",
   "type": "module",
-  "exports": {
-    ".": {
-        "import": "./dist/index.js"
-    }
-},
+  "exports": "./dist/index.js",
   "main": "./dist/index.js",
-  "bin": "./dist/bin.cjs",
+  "bin": "./dist/bin.js",
   "scripts": {
     "start": "node .",
     "dev": "tsc -w",
@@ -18,16 +14,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jimbuck/record-reminder.git"
+    "url": "git+https://github.com/jimbuck/cron-page.git"
   },
   "keywords": [],
   "author": "Jim Buck <jim@jimbuck.io>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/jimbuck/record-reminder/issues"
+    "url": "https://github.com/jimbuck/cron-page/issues"
   },
   "node": " >=14.13.1 || >=16.0.0",
-  "homepage": "https://github.com/jimbuck/record-reminder#readme",
+  "homepage": "https://github.com/jimbuck/cron-page#readme",
   "dependencies": {
     "conf": "^10.0.3",
     "cronstrue": "^1.117.0",
