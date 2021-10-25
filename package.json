@@ -11,6 +11,7 @@
     "dev": "tsc -w",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "preversion": "tsc",
     "version": "git add -A",
     "postversion": "git push && git push --tags && npm publish"
   },
